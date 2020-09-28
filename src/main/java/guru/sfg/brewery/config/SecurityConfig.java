@@ -10,18 +10,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import javax.naming.ldap.LdapContext;
+import javax.naming.ldap.LdapReferralException;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,19 +40,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .httpBasic();
     }
 
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new LdapShaPasswordEncoder();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("spring")
-                .password("guru") //To setup password encoder use {}, noop is none
+                .password("{SSHA}IRyPgDThpZ3O3YCTYy9R/4NsORseszGF8fDADg==") //To setup password encoder use {}, noop is none
                 .roles("ADMIN")
                 .and()
                 .withUser("user")
-                .password("password") //To setup password encoder use {}, noop is none
+                .password("{SSHA}eT9sLhDBWzQGuk0hhZh/FYVGok6aXuDT5alZrw==") //To setup password encoder use {}, noop is none
                 .roles("USER")
                 .and()
                 .withUser("scot")
-                .password("tiger") //To setup password encoder use {}, noop is none
+                .password("{SSHA}ccR4lrMTSgbPPXQoL/VpnjtFWgc9zivSwczhJw==") //To setup password encoder use {}, noop is none
                 .roles("CUSTOMER");
     }
 
