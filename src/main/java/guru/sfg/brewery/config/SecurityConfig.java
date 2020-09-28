@@ -42,7 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("user")
                 .password("{noop}password") //To setup password encoder use {}, noop is none
-                .roles("USER");
+                .roles("USER")
+                .and()
+                .withUser("scot")
+                .password("{noop}tiger") //To setup password encoder use {}, noop is none
+                .roles("CUSTOMER");
     }
 
     /* @Override
