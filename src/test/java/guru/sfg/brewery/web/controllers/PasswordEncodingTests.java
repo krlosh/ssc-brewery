@@ -2,6 +2,7 @@ package guru.sfg.brewery.web.controllers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +16,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PasswordEncodingTests {
 
     static final String PASSWORD = "password";
+
+    @Test
+    void testBCrypt() {
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        System.out.println(bcrypt.encode(PASSWORD));
+        System.out.println(bcrypt.encode(PASSWORD));
+        System.out.println("guru->" + bcrypt.encode("guru"));
+        System.out.println("tiger->"+bcrypt.encode("tiger"));
+    }
 
     @Test
     void testSha256() {
