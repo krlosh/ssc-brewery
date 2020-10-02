@@ -20,34 +20,34 @@ public class PasswordEncodingTests {
     @Test
     void testBCrypt() {
         PasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        System.out.println("bcrypt "+PASSWORD+"->" +bcrypt.encode(PASSWORD));
         System.out.println(bcrypt.encode(PASSWORD));
-        System.out.println(bcrypt.encode(PASSWORD));
-        System.out.println("guru->" + bcrypt.encode("guru"));
-        System.out.println("tiger->"+bcrypt.encode("tiger"));
+        System.out.println("bcrypt guru->" + bcrypt.encode("guru"));
+        System.out.println("bcrypt tiger->"+bcrypt.encode("tiger"));
     }
 
     @Test
     void testSha256() {
         PasswordEncoder sha256 = new StandardPasswordEncoder();
-        System.out.println(sha256.encode(PASSWORD));
-        System.out.println(sha256.encode(PASSWORD));
-        System.out.println("guru->" + sha256.encode("guru"));
-        System.out.println("tiger->"+sha256.encode("tiger"));
+        System.out.println("sha256 "+PASSWORD+"->" +sha256.encode(PASSWORD));
+        System.out.println("sha256 "+PASSWORD+"->" +sha256.encode(PASSWORD));
+        System.out.println("sha256 guru->" + sha256.encode("guru"));
+        System.out.println("sha256 tiger->"+sha256.encode("tiger"));
     }
 
     @Test
     void testLdap() {
         PasswordEncoder ldap = new LdapShaPasswordEncoder();
 
-        System.out.println(ldap.encode(PASSWORD));
-        System.out.println(ldap.encode(PASSWORD));
+        System.out.println("ldap "+PASSWORD+"->"+ldap.encode(PASSWORD));
+        System.out.println("ldap "+PASSWORD+"->"+ldap.encode(PASSWORD));
 
         String passEncoded = ldap.encode(PASSWORD);
 
         assertTrue(ldap.matches(PASSWORD,passEncoded));
 
-        System.out.println(ldap.encode("guru"));
-        System.out.println(ldap.encode("tiger"));
+        System.out.println("ldap guru->"+ldap.encode("guru"));
+        System.out.println("ldap tiger->"+ldap.encode("tiger"));
 
     }
 
