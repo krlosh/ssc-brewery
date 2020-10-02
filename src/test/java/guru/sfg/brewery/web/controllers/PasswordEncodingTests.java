@@ -27,6 +27,15 @@ public class PasswordEncodingTests {
     }
 
     @Test
+    void testBCrypt15() {
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder(15);
+        System.out.println("bcrypt15 "+PASSWORD+"->" +bcrypt.encode(PASSWORD));
+        System.out.println(bcrypt.encode(PASSWORD));
+        System.out.println("bcrypt15 guru->" + bcrypt.encode("guru"));
+        System.out.println("bcrypt15 tiger->"+bcrypt.encode("tiger"));
+    }
+
+    @Test
     void testSha256() {
         PasswordEncoder sha256 = new StandardPasswordEncoder();
         System.out.println("sha256 "+PASSWORD+"->" +sha256.encode(PASSWORD));

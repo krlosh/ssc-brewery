@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("USER")
                 .and()
                 .withUser("scott")
-                .password("{ldap}{SSHA}RzidaVo+XLP3MO8fPvZ0+qEWTLuFOd8UbcYviw==") //To setup password encoder use {}, noop is none
+                .password("{bcrypt15}$2a$15$b/fxcP9M006q0UhK0zfVGOEXLFPt/UfNKBiwtuBTs4Hhy9on6XzWG") //To setup password encoder use {}, noop is none
                 .roles("CUSTOMER");
     }
 
