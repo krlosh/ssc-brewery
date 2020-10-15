@@ -1,8 +1,10 @@
 package guru.sfg.brewery.config;
 
+import guru.sfg.brewery.security.JpaUserDetailsService;
 import guru.sfg.brewery.security.RestHeaderAuthFilter;
 import guru.sfg.brewery.security.RestUrlAuthFilter;
 import guru.sfg.brewery.security.SfgPasswordEncoderFactories;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -76,9 +78,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return SfgPasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    /*
+    Not needed if you only have one UserDetailsService impl, because spring boot uses that.
+
+    @Autowired
+    JpaUserDetailsService jpaUserDetailsService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
+        auth.userDetailsService(this.jpaUserDetailsService):
+        /*auth.inMemoryAuthentication()
                 .withUser("spring")
                 .password("{bcrypt}$2a$10$3y9S1INTKqWlDKW1.aNJd.OrE9IfIooCA1z1xx1hbGa3mosa1kVce") //To setup password encoder use {}, noop is none
                 .roles("ADMIN")
@@ -91,6 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .password("{bcrypt10}$2a$10$95.codS13rzEI7x71N6d2u2DBZTBQwSl4InB50mYjVuPfpVgYH5uK") //To setup password encoder use {}, noop is none
                 .roles("CUSTOMER");
     }
+    */
 
     /* @Override
     @Bean
