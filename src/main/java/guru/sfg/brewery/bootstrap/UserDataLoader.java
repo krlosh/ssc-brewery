@@ -1,0 +1,55 @@
+package guru.sfg.brewery.bootstrap;
+
+import guru.sfg.brewery.domain.security.Authority;
+import guru.sfg.brewery.domain.security.User;
+import guru.sfg.brewery.repositories.security.AuthoritiesRepository;
+import guru.sfg.brewery.repositories.security.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@RequiredArgsConstructor
+@Component
+public class UserDataLoader implements CommandLineRunner {
+
+    private final AuthoritiesRepository authoritiesRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public void run(String... args) throws Exception {
+        loadSecurityData();
+    }
+
+    private void loadSecurityData() {
+        Authority adminRole = Authority.builder().role("ADMIN").build();
+        Authority userRole = Authority.builder().role("USER").build();
+        Authority customerRole = Authority.builder().role("CUSTOMER").build();
+        if (authoritiesRepository.count()==0) {
+            authoritiesRepository.save(adminRole);
+            authoritiesRepository.save(userRole);
+            authoritiesRepository.save(customerRole);
+
+        }
+
+        if(!userRepository.findByUsername("spring").isPresent()) {
+            User spring = User.builder().username("spring").password(passwordEncoder.encode("guru")).authority(adminRole).build();
+            userRepository.save(spring);
+        }
+
+        if(!userRepository.findByUsername("user").isPresent()) {
+            User user = User.builder().username("user").password(passwordEncoder.encode("password")).authority(userRole).build();
+            userRepository.save(user);
+        }
+
+        if(!userRepository.findByUsername("scott").isPresent()) {
+            User scott = User.builder().username("scott").password(passwordEncoder.encode("tiger")).authority(customerRole).build();
+            userRepository.save(scott);
+        }
+        log.debug("Users loaded {}",userRepository.count());
+    }
+
+}
