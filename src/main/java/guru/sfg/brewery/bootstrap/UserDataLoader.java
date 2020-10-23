@@ -2,7 +2,7 @@ package guru.sfg.brewery.bootstrap;
 
 import guru.sfg.brewery.domain.security.Authority;
 import guru.sfg.brewery.domain.security.User;
-import guru.sfg.brewery.repositories.security.AuthoritiesRepository;
+import guru.sfg.brewery.repositories.security.AuthorityRepository;
 import guru.sfg.brewery.repositories.security.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDataLoader implements CommandLineRunner {
 
-    private final AuthoritiesRepository authoritiesRepository;
+    private final AuthorityRepository authorityRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -28,10 +28,10 @@ public class UserDataLoader implements CommandLineRunner {
         Authority adminRole = Authority.builder().role("ROLE_ADMIN").build();
         Authority userRole = Authority.builder().role("ROLE_USER").build();
         Authority customerRole = Authority.builder().role("ROLE_CUSTOMER").build();
-        if (authoritiesRepository.count()==0) {
-            authoritiesRepository.save(adminRole);
-            authoritiesRepository.save(userRole);
-            authoritiesRepository.save(customerRole);
+        if (authorityRepository.count()==0) {
+            authorityRepository.save(adminRole);
+            authorityRepository.save(userRole);
+            authorityRepository.save(customerRole);
 
         }
 
