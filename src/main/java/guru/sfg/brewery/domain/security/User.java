@@ -42,7 +42,6 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
     private Set<Role> roles;
 
-    @Singular
     @Transient
     private Set<Authority> authorities;
 
