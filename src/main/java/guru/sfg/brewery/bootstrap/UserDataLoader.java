@@ -25,9 +25,9 @@ public class UserDataLoader implements CommandLineRunner {
     }
 
     private void loadSecurityData() {
-        Authority adminRole = Authority.builder().role("ROLE_ADMIN").build();
-        Authority userRole = Authority.builder().role("ROLE_USER").build();
-        Authority customerRole = Authority.builder().role("ROLE_CUSTOMER").build();
+        Authority adminRole = Authority.builder().permission("ROLE_ADMIN").build();
+        Authority userRole = Authority.builder().permission("ROLE_USER").build();
+        Authority customerRole = Authority.builder().permission("ROLE_CUSTOMER").build();
         if (authorityRepository.count()==0) {
             authorityRepository.save(adminRole);
             authorityRepository.save(userRole);
