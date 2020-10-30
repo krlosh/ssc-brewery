@@ -110,6 +110,12 @@ class BeerOrderControllerTest extends BaseIT {
                 .andExpect(status().isForbidden());
     }
 
+    @Test
+    void listOrdersNotAuth() throws Exception {
+        mockMvc.perform(get(API_ROOT + stPeteCustomer.getId() + "/orders"))
+                .andExpect(status().isUnauthorized());
+    }
+
     @WithUserDetails(value="spring")
     @Test
     void listOrdersAdminAuth() throws Exception{
