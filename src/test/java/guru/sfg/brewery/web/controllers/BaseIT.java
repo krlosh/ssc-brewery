@@ -11,14 +11,14 @@ import java.util.stream.Stream;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
-public class BaseIT {
+public abstract class BaseIT {
     @Autowired
     protected WebApplicationContext wac;
 
     protected MockMvc mockMvc;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(wac)
                 .apply(springSecurity())
