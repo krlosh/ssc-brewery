@@ -100,14 +100,14 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                 .username(STPETE_USER)
                 .password(passwordEncoder.encode("password"))
                 .role(customerRole)
-                .customer(dunedinCustomer)
+                .customer(stPeteCustomer)
                 .build());
 
         User dunedinUser = userRepository.save(User.builder()
                 .username(DUNEDIN_USER)
                 .password(passwordEncoder.encode("password"))
                 .role(customerRole)
-                .customer(stPeteCustomer)
+                .customer(dunedinCustomer)
                 .build());
 
         User keyWestUser = userRepository.save(User.builder()
