@@ -6,6 +6,7 @@ import guru.sfg.brewery.web.model.BeerOrderDto;
 import guru.sfg.brewery.web.model.BeerOrderPagedList;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/api/v1/customers/{customerId}")
+@RequestMapping("/api/v1/customers/{customerId}/")
 @RestController
 public class BeerOrderController {
 
@@ -32,16 +32,19 @@ public class BeerOrderController {
         this.beerOrderService = beerOrderService;
     }
 
+    @PreAuthorize("hasAuthority('order.read') OR " +
+            "hasAuthority('customer.order.read') " +
+            "AND @beerOrderAuthenticationManager.customerIdMatches(authentication, #customerId)")
     @GetMapping("orders")
     public BeerOrderPagedList listOrders(@PathVariable("customerId") UUID customerId,
-                                               @RequestParam("pageNumber") Integer pageNumber,
-                                               @RequestParam("pageSize") Integer pageSize) {
+                                               @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                               @RequestParam(value = "pageSize", required = false) Integer pageSize) {
 
-        if (pageNumber == null) {
+        if (pageNumber == null || pageNumber < 0){
             pageNumber = DEFAULT_PAGE_NUMBER;
         }
 
-        if (pageSize == null){
+        if (pageSize == null || pageSize < 1) {
             pageSize = DEFAULT_PAGE_SIZE;
         }
 
@@ -56,7 +59,9 @@ public class BeerOrderController {
         return this.beerOrderService.placeOrder(customerId, beerOrderDto);
     }
 
-
+    @PreAuthorize("hasAuthority('order.read') OR " +
+            "hasAuthority('customer.order.read') AND " +
+            "@beerOrderAuthenticationManager.customerIdMatches(authentication,#customerId) ")
     @GetMapping("orders/{orderId}")
     public BeerOrderDto getOrder(@PathVariable("customerId") UUID customerId,
                                  @PathVariable("orderId") UUID orderId) {
@@ -64,7 +69,8 @@ public class BeerOrderController {
     }
 
     @PutMapping("/orders/{orderId}/pickup")
-    public void pickUpOrder(@PathVariable("customerId") UUID customerId,
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void pickupOrder(@PathVariable("customerId") UUID customerId,
                             @PathVariable("orderId") UUID orderId){
 
         this.beerOrderService.pickupOrder(customerId, orderId);
