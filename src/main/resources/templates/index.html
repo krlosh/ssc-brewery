@@ -29,17 +29,19 @@
 
 <div class="row" sec:authorize="!isAuthenticated()">
     <div class="col-md-12">
-        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.class.name} == 'org.springframework.security.authentication.BadCredentialsException'" class="alert alert-danger">Invalid username or password</div>
-        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.class.name} == 'org.springframework.security.authentication.LockedException'" class="alert alert-danger">User account is locked</div>
-        <div th:if="${param.logout}" class="alert alert-success">You have loged out</div>
+        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Bad credentials'" class="alert alert-danger">Invalid Username or Password</div>
+
+        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'User account is locked'" class="alert alert-danger">User Account is Locked.</div>
+
+        <div th:if="${param.logout}" class="alert alert-success">You have logged out</div>
         <form th:action="@{/login}" method="post">
-            <label for="username">Username</label>
+            <label for="username">Username:</label>
             <input type="text" id="username" name="username" autofocus="true" autocomplete="off">
-            <label for="password">Password</label>
+            <label for="password">Password:</label>
             <input type="password" id="password" name="password" autofocus="true" autocomplete="off">
+            <input type="submit" value="Log In">
             <label for="remember-me">Remember me</label>
             <input type="checkbox" name="remember-me" id="remember-me">
-            <input type="submit" value="Log In">
         </form>
     </div>
 </div>

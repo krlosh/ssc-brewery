@@ -53,7 +53,7 @@ public class User implements UserDetails, CredentialsContainer {
     private Set<Role> roles;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    public Customer customer;
+    private Customer customer;
 
     @Builder.Default
     private Boolean accountNonExpired = true;

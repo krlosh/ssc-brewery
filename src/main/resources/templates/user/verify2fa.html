@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'beers')}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'home')}">
 <head>
     <meta charset="UTF-8">
     <title>Two Factor QR Code</title>
@@ -13,9 +13,10 @@
             <form th:action="@{/user/verify2fa}" class="form-horizontal" id="verify-code-form" method="post">
                 <div class="form-group has-feedback">
                     <label class="control-label" for="verifyCode">Enter Code</label>
-                    <input class="form-control" type="number" id="verifyCode" name="verifyCode" autofocus="true" autocomplete="false" b />
+                    <input class="form-control" type="number" id="verifyCode" name="verifyCode" autofocus="true" autocomplete="false" />
 
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
