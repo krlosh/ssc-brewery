@@ -21,6 +21,11 @@ import java.util.concurrent.TimeUnit;
 public class SecurityBeans {
 
     @Bean
+    PasswordEncoder passwordEncoder() {
+        return SfgPasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
     public GoogleAuthenticator googleAuthenticator(ICredentialRepository credentialRepository) {
         GoogleAuthenticatorConfig.GoogleAuthenticatorConfigBuilder configBuilder = new GoogleAuthenticatorConfig.GoogleAuthenticatorConfigBuilder();
 
@@ -44,10 +49,5 @@ public class SecurityBeans {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
         return tokenRepository;
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return SfgPasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
